@@ -1,0 +1,9 @@
+{{#if parameters}}###### GET POST{{#with parameters}}
+{{>parameters-block}}{{/with}}
+{{/if}}{{#if constraints}}{{#if constraints.get}}###### GET
+{{#with constraints.get}}{{>parameters-block}}{{/with}}
+{{/if}}{{#if constraints.post}}###### POST
+{{#with constraints.post}}{{>parameters-block}}{{/with}}
+{{/if}}{{#unless constraints.get}}{{#unless constraints.post}}###### GET POST
+{{#with constraints}}{{>parameters-block}}{{/with}}
+{{/unless}}{{/unless}}{{/if}}

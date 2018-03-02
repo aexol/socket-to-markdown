@@ -1,0 +1,44 @@
+{
+  "name": "@aexol/socket-to-markdown",
+  "version": "0.1.0",
+  "description": "Document socket using markdown",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "rm -rf lib && babel src -d lib && cp -r src/partials lib/partials",
+    "test": "jest"
+  },
+  "bin": {
+    "socket2md": "bin/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/Aexol/socket-to-markdown.git"
+  },
+  "keywords": [
+    "socket",
+    "markdown"
+  ],
+  "author": "Aexol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/Aexol/socket-to-markdown/issues"
+  },
+  "homepage": "https://gitlab.com/Aexol/socket-to-markdown#README",
+  "dependencies": {
+    "command-line-tool": "^0.8.0",
+    "config-master": "^3.1.0",
+    "handlebars": "^4.0.11",
+    "js-yaml": "^3.10.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-strict-mode": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.18.1",
+    "jest": "^22.4.2"
+  }
+}

@@ -1,0 +1,12 @@
+{{#config}}## Config
+|Options | Type | Required|
+|--------|------|---------|
+{{#each this}}|_**{{@key}}**_|{{#if type}}{{type}}{{else}}    {{/if}}|{{#if required}} Yes {{else}} No {{/if}}|
+{{/each}}
+
+{{#each this}}{{#if description}}* {{@key}}
+
+    {{{description}}}
+
+{{/if}}
+{{/each}}{{/config}}

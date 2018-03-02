@@ -1,0 +1,44 @@
+name: sample-doc-gen
+version: 0.0.1
+description: |
+  This is a sample socket used to
+  generate docs with socket2md tool
+
+  ## Installation
+  ```sh
+  $ npx s add sample-doc-gen
+  ```
+config:
+  SUPER_API_KEY:
+    type: string
+    description: Api key to super service.
+    required: true
+  SUPER_DOMAIN:
+    type: string
+    description: Your own super domain.
+    required: true
+classes:
+  clazz:
+    - name: clazzName
+      type: string
+  klazz:
+    - name: klazzName
+      type: string
+    - name: clazzReference
+      type: reference
+      target: clazz
+endpoints:
+  hello:
+    description: |
+      This is a sample endpoint that prints hello on response.
+    parameters:
+      firstName:
+        type: string
+        required: true
+        description: Say hello to person with first name `firstName`
+      lastName:
+        type: string
+        description: Say hello to person with last name `lastName`
+  world:
+    description: |
+      This is sample endpoint that prints world on response. What happend to hello?
