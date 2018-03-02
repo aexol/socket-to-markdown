@@ -27,18 +27,18 @@ $ npx s add sample-doc-gen
 
 ## Classes
 
-### clazz
+### clazz<a href='classes/clazz'></a>
 
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
 |clazzName|string| No | No | No |
-### klazz
+### klazz<a href='classes/klazz'></a>
 
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
 |klazzName|string| No | No | No |
-|clazzReference|clazz reference| No | No | No |
-|clazzRelation|clazz relation| No | No | No |
+|clazzReference|[clazz](classes/clazz) reference| No | No | No |
+|clazzRelation|[clazz](classes/clazz) relation| No | No | No |
 
 
 ## Endpoints
