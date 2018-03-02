@@ -1,0 +1,14 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docs": "socket2md > README.md; echo"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@aexol/socket-to-markdown": "^0.1.0"
+  }
+}
