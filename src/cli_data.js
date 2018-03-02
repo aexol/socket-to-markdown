@@ -16,6 +16,38 @@ const definitions = [
   {
     name: 'version',
     type: Boolean
+  },
+  {
+    name: 'partial',
+    type: String,
+    typeLabel: '[underline]{file} ...',
+    multiple: true,
+    description:
+      'Addition partial templates. File name becomes partial name. Overrides build-in partials on name conflict.'
+  },
+  {
+    name: 'helper',
+    type: String,
+    typeLabel: '[underline]{file} ...',
+    multiple: true,
+    description:
+      'Add extra helper to parsing. Helper name is same as file name.'
+  },
+  {
+    name: 'use-schema',
+    type: Boolean,
+    description: 'Enable schema JSONSchema parsing.'
+  },
+  {
+    name: 'concat-source',
+    type: Boolean,
+    description:
+      'Replace each $source key in socket with src/${source} contents.'
+  },
+  {
+    name: 'socket-file',
+    type: String,
+    description: 'Socket file path. By default ./socket.yml'
   }
 ];
 module.exports = {

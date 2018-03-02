@@ -2,10 +2,15 @@
 'use strict';
 const tool = require('command-line-tool');
 const version = require('../package').version;
+const camelCase = require('lodash.camelcase');
 
 const cli = parseCommandLine();
 let options = cli.options;
 options = loadStoredConfig(options);
+options = Object.keys(options).reduce((acc, val) => {
+  acc[camelCase(val)] = options[val];
+  return acc;
+}, {});
 
 /* socket2md --help */
 if (options.help) {
