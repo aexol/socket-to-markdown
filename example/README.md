@@ -27,26 +27,26 @@ $ npx s add sample-doc-gen
 
 ## Classes
 
-### clazz<a href='classes/clazz'></a>
+### clazz<a href='_classes-clazz'></a>
 
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
 |clazzName|string| No | No | No |
-### klazz<a href='classes/klazz'></a>
+### klazz<a href='_classes-klazz'></a>
 
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
 |klazzName|string| No | No | No |
-|clazzReference|[clazz](classes/clazz) reference| No | No | No |
-|clazzRelation|[clazz](classes/clazz) relation| No | No | No |
+|clazzReference|[clazz](_classes-clazz) reference| No | No | No |
+|clazzRelation|[clazz](_classes-clazz) relation| No | No | No |
 
 
 ## Endpoints
 
-* [sample-doc-gen/hello](hello)
-* [sample-doc-gen/world](world)
+* [sample-doc-gen/hello](_endpoints-hello)
+* [sample-doc-gen/world](_endpoints-world)
 
-#### hello
+#### hello<a href="_endpoints-hello"></a>
 
      This is a sample endpoint that prints hello on response.
 
@@ -68,7 +68,7 @@ $ npx s add sample-doc-gen
 
 
 
-#### world
+#### world<a href="_endpoints-world"></a>
 
      This is sample endpoint that prints world on response. What happend to hello?
 
