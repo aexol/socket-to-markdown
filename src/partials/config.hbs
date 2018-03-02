@@ -7,7 +7,7 @@
 {{#each this}}|{{@key}}|{{#if type}}{{type}}{{else}}    {{/if}}|{{#if required}} Yes {{else}} No {{/if}}|
 {{/each}}
 
-{{#each this}}* {{@key}}<a href="_config-{{@key}}"></a>{{#if description}}
+{{#each this}}* {{@key}}<a name="#_config-{{@key}}"></a>{{#if description}}
 
     {{{description}}}
 
