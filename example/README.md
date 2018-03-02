@@ -37,14 +37,14 @@ $ npx s add sample-doc-gen
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
 |klazzName|string| No | No | No |
-|clazzReference|[clazz](_classes-clazz) reference| No | No | No |
-|clazzRelation|[clazz](_classes-clazz) relation| No | No | No |
+|clazzReference|[clazz](#_classes-clazz) reference| No | No | No |
+|clazzRelation|[clazz](#_classes-clazz) relation| No | No | No |
 
 
 ## Endpoints
 
-* [sample-doc-gen/hello](_endpoints-hello)
-* [sample-doc-gen/world](_endpoints-world)
+* [sample-doc-gen/hello](#_endpoints-hello)
+* [sample-doc-gen/world](#_endpoints-world)
 
 #### hello<a href="_endpoints-hello"></a>
 
