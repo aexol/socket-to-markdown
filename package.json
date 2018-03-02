@@ -1,6 +1,6 @@
 {
   "name": "@aexol/socket-to-markdown",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Document socket using markdown",
   "main": "lib/index.js",
   "scripts": {
