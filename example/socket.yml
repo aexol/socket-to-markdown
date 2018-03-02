@@ -45,3 +45,7 @@ endpoints:
   world:
     description: |
       This is sample endpoint that prints world on response. What happend to hello?
+  hush-hush:
+    description: |
+      Sample of private endpoint. Can only be called by another endpoint or with account key.
+    private: true

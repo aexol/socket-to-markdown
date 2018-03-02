@@ -9,23 +9,37 @@ $ npx s add sample-doc-gen
 ```
 
 
+## Index
+
+* [Config](#_config)
+* [Classes](#_classes)
+* [Endpoints](#_endpoints)
+
+
 ## Config
+
+* [SUPER_API_KEY](#_config-SUPER_API_KEY)
+* [SUPER_DOMAIN](#_config-SUPER_DOMAIN)
+
 |Options | Type | Required|
 |--------|------|---------|
-|_**SUPER_API_KEY**_|string| Yes |
-|_**SUPER_DOMAIN**_|string| Yes |
+|SUPER_API_KEY|string| Yes |
+|SUPER_DOMAIN|string| Yes |
 
-* SUPER_API_KEY
+* SUPER_API_KEY<a href="_config-SUPER_API_KEY"></a>
 
     Api key to super service.
 
-* SUPER_DOMAIN
+* SUPER_DOMAIN<a href="_config-SUPER_DOMAIN"></a>
 
     Your own super domain.
 
 
 
-## Classes
+## Classes <a href='_classes'></a>
+
+* [clazz](#_classes-clazz)
+* [klazz](#_classes-klazz)
 
 ### clazz<a href='_classes-clazz'></a>
 
@@ -41,10 +55,11 @@ $ npx s add sample-doc-gen
 |clazzRelation|[clazz](#_classes-clazz) relation| No | No | No |
 
 
-## Endpoints
+## Endpoints <a href="_endpoints"></a>
 
 * [sample-doc-gen/hello](#_endpoints-hello)
 * [sample-doc-gen/world](#_endpoints-world)
+* [sample-doc-gen/hush-hush](#_endpoints-hush-hush)
 
 #### hello<a href="_endpoints-hello"></a>
 
@@ -71,6 +86,13 @@ $ npx s add sample-doc-gen
 #### world<a href="_endpoints-world"></a>
 
      This is sample endpoint that prints world on response. What happend to hello?
+
+     
+
+
+#### hush-hush <span style="color:gray">*PRIVATE*</span><a href="_endpoints-hush-hush"></a>
+
+     Sample of private endpoint. Can only be called by another endpoint or with account key.
 
      
 

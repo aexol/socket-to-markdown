@@ -1,6 +1,10 @@
 # {{#socket}}Socket {{name}}{{#if version}} - ver {{version}}{{/if}}{{#if description}}
 
-{{{description}}}{{/if}}{{#if config}}
+{{{description}}}{{/if}}
+
+{{>index}}
+
+{{#if config}}
 
 {{>config}}{{/if}}{{#if classes}}
 

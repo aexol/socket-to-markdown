@@ -1,12 +1,19 @@
 {{#config}}## Config
+
+{{>config-index}}
+
 |Options | Type | Required|
 |--------|------|---------|
-{{#each this}}|_**{{@key}}**_|{{#if type}}{{type}}{{else}}    {{/if}}|{{#if required}} Yes {{else}} No {{/if}}|
+{{#each this}}|{{@key}}|{{#if type}}{{type}}{{else}}    {{/if}}|{{#if required}} Yes {{else}} No {{/if}}|
 {{/each}}
 
-{{#each this}}{{#if description}}* {{@key}}
+{{#each this}}* {{@key}}<a href="_config-{{@key}}"></a>{{#if description}}
 
     {{{description}}}
+
+{{else}}
+
+    <span style="color: gray">*missing description*</span>
 
 {{/if}}
 {{/each}}{{/config}}

@@ -27,3 +27,6 @@ and then run
 ```sh
 $ npm run docs
 ```
+
+TODO:
+* Syncano events.
