@@ -46,6 +46,10 @@ $ npm run docs
 * parameters-block
 * parameters-table
 
+## Extra partial
+
+You can add any handlebars template file as partial template.
+
 ## Built in helpers
 
 * socket - Get socket object
@@ -56,6 +60,17 @@ $ npm run docs
 * parameters - Get parameters for current endpoint
 * parameters-table - Create param table for current endpoint
 * reference-type - True if class type is reference or relation.
+
+## Extra helpers
+Just add javascript file exporting simple function, for example:
+```javascript
+module.exports = (context, options) => {
+    let out = 'HEADER!!!!\n'
+    out += options.fn(this)
+    out += 'FOOTER!!!\n'
+    return out:
+}
+```
 
 TODO:
 * Syncano events.
