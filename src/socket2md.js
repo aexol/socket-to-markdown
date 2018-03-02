@@ -55,8 +55,8 @@ export function makeSocketHelpers(socketObject, opts = {}) {
       : parametersIndexHelper)(socketObject, parameters, options);
   });
   Handlebars.registerHelper('reference-type', (a, options) => {
-    if (a === 'reference') {
-      return options.fn(this);
+    if (a === 'reference' || a === 'relation') {
+      return options.fn(a);
     }
     return options.inverse(this);
   });

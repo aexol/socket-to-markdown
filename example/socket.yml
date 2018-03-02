@@ -27,6 +27,9 @@ classes:
     - name: clazzReference
       type: reference
       target: clazz
+    - name: clazzRelation
+      type: relation
+      target: clazz
 endpoints:
   hello:
     description: |

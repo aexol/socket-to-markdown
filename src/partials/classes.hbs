@@ -4,6 +4,6 @@
 
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
-{{#each this}}|{{name}}|{{#reference-type type}}{{../target}} reference{{else}}{{type}}{{/reference-type}}|{{#if filter_index}} Yes {{else}} No {{/if}}|{{#if order_index}} Yes {{else}} No {{/if}}|{{#if unique}} Yes {{else}} No {{/if}}|
+{{#each this}}|{{name}}|{{#reference-type type}}{{../target}} {{this}}{{else}}{{../type}}{{/reference-type}}|{{#if filter_index}} Yes {{else}} No {{/if}}|{{#if order_index}} Yes {{else}} No {{/if}}|{{#if unique}} Yes {{else}} No {{/if}}|
 {{/each}}
 {{/each}}{{/classes}}

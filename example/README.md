@@ -31,13 +31,14 @@ $ npx s add sample-doc-gen
 
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
-|clazzName|| No | No | No |
+|clazzName|string| No | No | No |
 ### klazz
 
 |Name | Type | filter_index | order_index | unique |
 |-----|------|--------------|-------------|--------|
-|klazzName|| No | No | No |
+|klazzName|string| No | No | No |
 |clazzReference|clazz reference| No | No | No |
+|clazzRelation|clazz relation| No | No | No |
 
 
 ## Endpoints
