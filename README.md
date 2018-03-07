@@ -1,6 +1,6 @@
 # socket-to-markdown
 
-Analyze socket.yml in current directory and print to `stdout` markdown with socket documentation.
+Analyze socket.yml in current directory and print to `stdout` markdown with socket documentation. Project was inspired by jsdoc-to-markdown, though it's far simpler as my needs were simpler.
 
 ## Installation
 
