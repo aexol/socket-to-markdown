@@ -57,8 +57,7 @@ You can add any handlebars template file as partial template.
 * config - Get config object
 * endpoints - Get endpoints obejct
 * events - Get events object
-* inputs - Get inputs for current endpoint
-* inputs-table - Create param table for current endpoint
+* details - Check if property is primitve type or if it's object/array with more details.
 * reference-type - True if class type is reference or relation.
 
 ## Extra helpers
