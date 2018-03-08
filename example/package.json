@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "docs": "socket2md > README.md; echo"
+    "docs": "socket2md -t socket2md/main.hbs --helper socket2md/removeNotAnyOfRequired.js > README.md; echo"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@aexol/socket-to-markdown": "^0.1.0"
+    "@aexol/socket-to-markdown": "^0.2.0"
   }
 }

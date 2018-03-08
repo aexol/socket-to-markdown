@@ -1,51 +1,227 @@
-name: sample-doc-gen
-version: 0.0.1
+name: apple-search-ads
 description: |
-  This is a sample socket used to
-  generate docs with socket2md tool
+  Socket wrapping Apple SearchAds API
 
   ## Installation
+
+  Install socket from syncano registry.
+
   ```sh
-  $ npx s add sample-doc-gen
+  $ npx s add apple-search-ads
   ```
+version: 0.0.2
+runtime: nodejs_v8
 config:
-  SUPER_API_KEY:
-    type: string
-    description: Api key to super service.
+  orgId:
+    description: orgId that you wish to manage, get from SearchAds WebUI
+    type: number
+    example: 1
     required: true
-  SUPER_DOMAIN:
+  pem:
+    description: |
+      PEM certificate from SearchAds Web UI.
+      Can be set later on with `$ npx s config-set apple-search-ads pem -- "$(cat cert.pem)"`
     type: string
-    description: Your own super domain.
+    example: pem
     required: true
-classes:
-  clazz:
-    - name: clazzName
-      type: string
-  klazz:
-    - name: klazzName
-      type: string
-    - name: clazzReference
-      type: reference
-      target: clazz
-    - name: clazzRelation
-      type: relation
-      target: clazz
+  key:
+    type: string
+    example: key
+    description: |
+      Certificate key
+      Can be set later on with `$ npx s config-set apple-search-ads key -- "$(cat cert.key)"`
+    required: true
+  expose:
+    type: boolean
+    description: |
+      Expose auth info on private endpoint apple-search-ads/auth.
+      Can be useful for implementing custom functionality using
+      apple-search-ads. Drawback is that all endpoints will have
+      access to your searchads credentials.
+    required: false
+    example: false
 endpoints:
-  hello:
-    description: |
-      This is a sample endpoint that prints hello on response.
-    parameters:
-      firstName:
-        type: string
-        required: true
-        description: Say hello to person with first name `firstName`
-      lastName:
-        type: string
-        description: Say hello to person with last name `lastName`
-  world:
-    description: |
-      This is sample endpoint that prints world on response. What happend to hello?
-  hush-hush:
-    description: |
-      Sample of private endpoint. Can only be called by another endpoint or with account key.
+  schema:
+    file: schema.js
+    description: Return socket schemas.
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+  adgroup:
+    file: adgroup.js
+    description: Adgroup endpoint. Check out [Apple SearchAds API Adgroup Object](https://developer.apple.com/library/content/documentation/General/Conceptual/AppStoreSearchAdsAPIReference/Campaign_Resources.html#//apple_ref/doc/uid/TP40017495-CH14-SW5) for more information.
     private: true
+    inputs:
+      GET:
+        type: object
+        properties:
+          campaignId:
+            type: number
+          adgroupId:
+            type: number
+        required:
+          - campaignId
+          - adgroupId
+        additionalProperties: false
+      POST:
+        $merge:
+          source:
+            $merge:
+              source:
+                $ref: 'main#/AdGroup'
+              with:
+                properties:
+                  adgroupId:
+                    type: number
+                required:
+                  - campaignId
+                  - adgroupId
+                additionalProperties: false
+          with:
+            not:
+              anyOf:
+                - required:
+                  - cpaGoal
+                - required:
+                  - storefronts
+                - required:
+                  - endTime
+                - required:
+                  - keywords
+                - required:
+                  - negativeKeywords
+                - required:
+                  - deleted
+                - required:
+                  - status
+                - required:
+                  - servingStatus
+                - required:
+                  - modificationTime
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+      forbidden:
+        mimetype: application/json
+        exit_code: 403
+  adgroups:
+    file: adgroups.js
+    description: |
+      Adgroups endpoint. Check out [Apple SearchAds API Adgroup Object](https://developer.apple.com/library/content/documentation/General/Conceptual/AppStoreSearchAdsAPIReference/Campaign_Resources.html#//apple_ref/doc/uid/TP40017495-CH14-SW5) for more information.
+    private: true
+    inputs:
+      GET:
+        type: object
+        description: List adgroups
+        properties:
+          campaignId:
+            type: number
+        required:
+          - campaignId
+      POST:
+        $merge:
+          source:
+            $ref: 'main#/AdGroup'
+          with:
+            description: Create new adgroup
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+      forbidden:
+        mimetype: application/json
+        exit_code: 403
+  auth:
+    file: auth.js
+    description: |
+      If config.expose is set to true, return auth data.
+      ```javascript
+      import Syncano from '@syncano/core'
+      export default ctx => new Syncnao(ctx).endpoints.get('apple-search-ads/auth')
+      ```
+    private: true
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+      forbidden:
+        mimetype: application/json
+        exit_code: 403
+  campaigns:
+    file: campaigns.js
+    description: |
+      Create campaign/Get campaigns. Check out [Apple SearchAds API Campaign Object](https://developer.apple.com/library/content/documentation/General/Conceptual/AppStoreSearchAdsAPIReference/Campaign_Resources.html#//apple_ref/doc/uid/TP40017495-CH14-SW2) for more information.
+    private: true
+    inputs:
+      GET:
+        description: Get campaigns.
+      POST:
+        $merge:
+          source:
+            $ref: 'main#/Campaign'
+          with:
+            description: Create new campaign
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+      badRequest:
+        mimetype: application/json
+        exit_code: 400
+  campaign:
+    file: campaign.js
+    description: Update/Get campaign. Check out [Apple SearchAds API Campaign Object](https://developer.apple.com/library/content/documentation/General/Conceptual/AppStoreSearchAdsAPIReference/Campaign_Resources.html#//apple_ref/doc/uid/TP40017495-CH14-SW2) for more information.
+    private: true
+    inputs:
+      GET:
+        description: Get campaign by id
+        type: object
+        properties:
+          campaignId:
+            type: number
+        required:
+          - campaignId
+      POST:
+        $merge:
+          source:
+            $ref: 'main#/CampaignUpdate'
+          with:
+            description: Update campaign
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+      badRequest:
+        mimetype: application/json
+        exit_code: 400
+  find-campaigns:
+    file: find_campaigns.js
+    description: Find campaigns matching query. Check out [Apple SearchAds API Selector Object](https://developer.apple.com/library/content/documentation/General/Conceptual/AppStoreSearchAdsAPIReference/API_Overview.html#//apple_ref/doc/uid/TP40017495-CH7-SW11) for more information.
+    private: true
+    inputs:
+      $ref: 'main#/Selector'
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+      badRequest:
+        mimetype: application/json
+        exit_code: 400
+  find-adgroups:
+    file: find_adgroups.js
+    description: Find adgroups matching query. Check out [Apple SearchAds API Selector Object](https://developer.apple.com/library/content/documentation/General/Conceptual/AppStoreSearchAdsAPIReference/API_Overview.html#//apple_ref/doc/uid/TP40017495-CH7-SW11) for more information.
+    private: true
+    inputs:
+      $ref: 'main#/AdGroupSelector'
+    response:
+      success:
+        mimetype: application/json
+        exit_code: 200
+      badRequest:
+        mimetype: application/json
+        exit_code: 400
+schemas:
+  main: schema.yml
+

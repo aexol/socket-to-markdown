@@ -1,0 +1,409 @@
+AdGroup:
+  type: object
+  properties:
+    campaignId:
+      type: number
+      description: Returned when creating add group.
+    name:
+      type: string
+      description: Unique within campaign
+    defaultCpcBid:
+      allOf:
+        $ref: '#/Amount'
+      description: Default const per click bid.
+    cpaGoal:
+      allOf:
+        $ref: '#/Amount'
+      description: optional cost per click bid.
+    storefronts:
+      type: array
+      items:
+        $ref: '#/Storefront'
+    startTime:
+      type: string
+      format: date-time
+      description: Start date for the ad group. Can't be 24 hours earlier than current time. 
+    endTime:
+      type: string
+      format: date-time
+      description: End date for the ad group.
+    keywords:
+      type: array
+      items:
+        $ref: '#/TargetedKeyword'
+    negativeKeywords:
+      type: array
+      items:
+        $ref: '#/NegativeKeyword'
+    automatedKeywordsOptIn:
+      type: boolean
+    targetingDimensions:
+      $ref: '#/TargetingDimensions'
+    status:
+      enum:
+        - ENABLED
+        - PAUSED
+  required:
+    - campaignId
+    - name
+    - defaultCpcBid
+    - startTime
+AdGroupRet:
+  $merge:
+    source:
+      $ref: '#/AdGroup'
+    with:
+      properties:
+        id:
+          type: number
+        deleted:
+          type: boolean
+        servingStatus:
+          enum:
+            - RUNNING
+            - NOT_RUNNING
+        servingStateReasons:
+          type: array
+          items:
+            type: string
+        modificationTime:
+          type: date-time
+AdGroupSelector:
+  $merge:
+    source:
+      $ref: '#/Selector'
+    with:
+      properties:
+        campaignId:
+          type: number
+  required:
+    - campaignId
+Amount:
+  title: Amount
+  type: object
+  properties:
+    currency:
+      type: string
+    amount:
+      type: number
+  required:
+    - currency
+    - amount
+AdminArea:
+  type: object
+  properties:
+    included:
+      type: array
+      items:
+        type: string
+AgeGroup:
+  type: object
+  properties:
+    included:
+      type: array 
+      items:
+        $ref: '#/Age'
+Age:
+  type: object
+  properties:
+    maxAge:
+      type: integer
+    minAge:
+      type: integer
+AppDownloaders:
+  type: object
+  properties:
+    included:
+      type: array
+      items:
+        type: string
+    excluded:
+      type: array
+      items:
+        type: string
+BudgetOrder:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    startDate:
+      type: date-time
+    endDate:
+      type: date-time
+    budget:
+      $ref: '#/Amount'
+    orderNumber:
+      type: string
+    client:
+      type: string
+    primaryBuyerName:
+      type: string
+    primaryBuyerEmail:
+      type: string
+    billingAddress:
+      type: any
+    status:
+      enum:
+        - INACTIVE
+        - ACTIVE
+        - COMPLETED
+        - EXHAUSTED
+        - CANCELLED
+    numCapmaigns:
+      type: number
+    spendPerDate:
+      type: number
+Campaign:
+  type: object
+  properties:
+    name:
+      type: string
+      description: unique name within org
+    budgetAmount:
+      allOf:
+        $ref: '#/Amount'
+      description: Once set can only be increased.
+    dailyBudgetAmount:
+      allOf:
+        $ref: '#/Amount'
+      description: Daily cap
+    adamId:
+      type: number
+      description: Adam ID of promoted app.
+    status:
+      enum:
+        - ENABLED
+        - PAUSED
+      description: Whether runs or not.
+    negativeKeywords:
+      type: array
+      items:
+        $ref: '#/NegativeKeyword'
+    adGroups:
+      type: array
+      items:
+        $ref: '#/AdGroup'
+    storefront:
+      $ref: '#/Storefront'
+  required:
+    - name
+    - budgetAmount
+    - adamId
+    - adGroups
+CampaignUpdate:
+  allOf:
+    $merge:
+      source:
+        $ref: '#/Campaign'
+      with:
+        properties:
+          campaignId:
+            type: number
+  required:
+    - campaignId
+    - name
+    - budgetAmount
+    - adamId
+    - adGroups
+CampaignRet:
+  $merge:
+    source:
+      $ref: '#/Campaign'
+    with:
+      properties:
+        id:
+          type: number
+        orgId:
+          type: number
+Condition:
+  type: object
+  properties:
+    field:
+      type: string
+      description: Field name
+    values:
+      type: array
+    operator:
+      enum:
+        - IN
+        - EQUALS
+        - GREATER
+        - LESS_THAN
+        - STARTSWITH
+  required:
+    - field
+    - values
+    - operator
+Daypart:
+  type: object
+  properties:
+    userTime:
+      type: object
+      properties:
+        included:
+          type: array
+          items:
+            type: integer
+            minimum: 0
+            maximum: 167
+Device:
+  type: object
+  properties:
+    included:
+      type: array
+      items:
+        $ref: '#/DeviceString'
+DeviceString:
+  enum:
+    - IPAD
+    - IPHONE
+Gender:
+  type: object
+  properties:
+    included:
+      type: array
+      items:
+        $ref: '#/GenderString'
+GenderString:
+  enum:
+    - M
+    - F
+LOCInvoice:
+  type: object
+  properties:
+    clientName:
+      type: string
+    orderNumber:
+      type: string
+    buyerName:
+      type: string
+    buyerEmail:
+      type: string
+    billingContactName:
+      type: string
+    billingContactEmail:
+      type: string
+  required:
+    - buyerName
+    - buyerEmail
+    - bilingContactName
+    - bilingContactEmail
+Locality:
+  type: object
+  properties:
+    included:
+      type: array
+      items:
+        type: string
+MatchTypeEnum:
+  enum:
+    - EXACT
+    - BROAD
+NegativeKeyword:
+  type: object
+  properties:
+    text:
+      type: string
+    matchType:
+      $ref: '#/MatchTypeEnum'
+  required:
+    - text
+    - matchType
+NegativeKeywordRet:
+  $merge:
+    source:
+      $ref: '#/NegativeKeyword'
+    with:
+      properties:
+        id:
+          type: number
+        delete:
+          type: boolean
+OrderBy:
+  type: object
+  properties:
+    field:
+      type: string
+    sordOrder:
+      enum:
+        - ASCENDING
+        - DESCENDING
+Pagination:
+  type: object
+  properties:
+    offset:
+      type: number
+    limit:
+      type: number
+  required:
+    - offset
+    - limit
+Selector:
+  type: object
+  properties:
+    conditions:
+      type: array
+      items:
+        $ref: '#/Condition'
+    fields:
+      type: array
+      items:
+        type: string
+    orderBy:
+      $ref: '#/OrderBy'
+    pagination:
+      $ref: '#/Pagination'
+Storefront:
+  enum:
+    - US
+    - GB
+    - AU
+    - NZ
+  description: The app store territory in which you want to promote your app.
+TargetedKeyword:
+  type: object
+  properties:
+    text:
+      type: string
+      description: The word or phrase to match in user searches, to show your ad.
+    matchType:
+      $ref: '#/MatchTypeEnum'
+    bidAmount:
+      $ref: '#/Amount'
+    status:
+      enum:
+        - ACTIVE
+        - PAUSED
+  required:
+    - text
+    - matchType
+    - bidAmount 
+TargetedKeywordRet:
+  $merge:
+    source:
+      $ref: '#/TargetedKeyword'
+    with:
+      properties:
+        id:
+          type: number
+        delete:
+          type: boolean
+TargetingDimensions:
+  type: object
+  properties:
+    adminArea:
+      $ref: '#/AdminArea'
+    age:
+      $ref: '#/AgeGroup'
+    appDownloaders:
+      $ref: '#/AppDownloaders'
+    dayPart:
+      $ref: '#/Daypart'
+    deviceClass:
+      $ref: '#/Device'
+    gender:
+      $ref: '#/Gender'
+    locality:
+      $ref: '#/Locality'
