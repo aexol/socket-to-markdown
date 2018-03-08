@@ -1,0 +1,25 @@
+{{#if properties}}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+  </tr>
+{{#each properties}}
+  <tr>
+    <td style="vertical-align:top">{{@key}}</td>
+    <td style="vertical-align:top">{{#details this}}<details><summary>{{type}}</summary>{{>inputs-table}}</details>{{else}}{{>inputs-table}}{{/details}}</td>
+    <td style="vertical-align:top">{{#required ../required @key}}{{/required}}</td>
+  </tr>
+{{/each}}
+</table>
+{{else}}{{#if items}}
+    List of {{#with items}}{{>inputs-table}}{{/with}}
+{{else}}{{#if enum}}
+
+|Enum|
+|----|
+{{#each enum}}|{{this}}|
+{{/each}}
+{{else}}{{type}}
+{{/if}}{{/if}}{{/if}}

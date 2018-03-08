@@ -6,29 +6,7 @@ import merge from 'lodash.merge';
 import has from 'lodash.has';
 import get from 'lodash.get';
 import unset from 'lodash.unset';
-
-function schemaInjectParametersHelper(socketObject, parameters, options) {}
-
-function parametersHelper(socketObject, parameters, options) {
-  let out = '';
-  for (const key of Object.keys(parameters)) {
-    out += options.fn(parameters[key], {data: {key}});
-  }
-  return out;
-}
-
-function schemaInjectParametersTableHelper(socketObject, parameters, options) {}
-
-function parametersTableHelper(socketObject, parameters, options) {
-  let out = '| Name | Type | Required |\n';
-  out += '|------|------|--------|\n';
-  for (const key of Object.keys(parameters)) {
-    const type = parameters[key].type || 'any';
-    const required = parameters[key].required ? 'Yes' : 'No';
-    out += `| ${key} | ${type} | ${required} |\n`;
-  }
-  return out;
-}
+import parser from './parsers';
 
 export function makeSocketHelpers(socketObject, opts = {}) {
   Handlebars.registerHelper('socket', options => {
@@ -46,17 +24,12 @@ export function makeSocketHelpers(socketObject, opts = {}) {
   Handlebars.registerHelper('events', options => {
     return options.fn(socketObject.events);
   });
-  Handlebars.registerHelper('parameters', (parameters, options) => {
-    return (opts.useSchema ? schemaInjectParametersHelper : parametersHelper)(
-      socketObject,
-      parameters,
-      options
-    );
-  });
-  Handlebars.registerHelper('parameters-table', (parameters, options) => {
-    return (opts.useSchema
-      ? schemaInjectParametersTableHelper
-      : parametersTableHelper)(socketObject, parameters, options);
+  Handlebars.registerHelper('details', (prop, options) => {
+    // Object or array?
+    if (prop.properties || prop.items) {
+      return options.fn(prop);
+    }
+    return options.inverse(prop);
   });
   Handlebars.registerHelper('reference-type', (a, options) => {
     if (a === 'reference' || a === 'relation') {
@@ -64,12 +37,30 @@ export function makeSocketHelpers(socketObject, opts = {}) {
     }
     return options.inverse(this);
   });
-  const getHelperName = h => pFn.substring(0, pFn.length - 3);
+  Handlebars.registerHelper('required', (required, prop, options) => {
+    let req = required;
+    if (required && !Array.isArray(required)) {
+      req = [];
+      for (const k of Object.keys(required)) {
+        req.push(required[k]);
+      }
+    }
+    return req && typeof req.find(v => v === prop) !== 'undefined'
+      ? 'Yes'
+      : 'No';
+  });
+  const getHelperName = h => h.substring(0, h.length - 3);
+  const isAbs = p => p[0] === '/';
+  const isRelative = p => p.substr(0, 3) === '../' || p.substr(0, 2) === './';
+  const prependCur = p => !isAbs(p) && !isRelative(p);
   if (opts.helper) {
     for (const i of Object.keys(opts.helper)) {
+      const helper = prependCur(opts.helper[i])
+        ? `${process.cwd()}/${opts.helper[i]}`
+        : opts.helper[i];
       Handlebars.registerHelper(
-        getHelperName(path.basename(opts.helper[i])),
-        require(opts.helper[i])
+        getHelperName(path.basename(helper)),
+        require(helper)
       );
     }
   }
@@ -100,38 +91,17 @@ function loadYamlFile(fn) {
   return yaml.safeLoad(fs.readFileSync(fn).toString());
 }
 
-function interpolateDeep(o, opts = {}) {
-  if (!o || typeof o !== 'object') {
-    return o;
-  }
-  Object.keys(o).forEach(k => {
-    o = merge(o, {[k]: interpolateDeep(o[k], opts)});
-  });
-  const key = '$source';
-  const keepKey = opts.keepKey || false;
-  if (has(o, key)) {
-    const value = get(o, key);
-    if (!keepKey) {
-      unset(o, key);
-    }
-    const extraYaml = loadYamlFile(path.join('./src', value));
-    o = merge(o, extraYaml);
-  }
-  return o;
-}
-
 export function readInSocketYaml(opts = {}) {
   let socketYml = loadYamlFile(opts.socketFile || './socket.yml');
-  if (opts.concatSource) {
-    socketYml = interpolateDeep(socketYml, opts);
-  }
-  return socketYml;
+  return parser(socketYml, opts);
 }
 
 export function generateMD(opts) {
-  makeSocketHelpers(readInSocketYaml(opts), opts);
-  registerPartials(path.join(__dirname, 'partials'), opts);
-  const body = opts.template || '{{>main}}';
-  const template = Handlebars.compile(body);
-  return template({});
+  return readInSocketYaml(opts).then(socket => {
+    makeSocketHelpers(socket, opts);
+    registerPartials(path.join(__dirname, 'partials'), opts);
+    const body = opts.template || '{{>main}}';
+    const template = Handlebars.compile(body);
+    return template(socket);
+  });
 }

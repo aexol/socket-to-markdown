@@ -3,6 +3,7 @@
 const tool = require('command-line-tool');
 const version = require('../package').version;
 const camelCase = require('lodash.camelcase');
+const YAML = require('json-schema-ref-parser').YAML;
 
 const cli = parseCommandLine();
 let options = cli.options;
@@ -25,7 +26,7 @@ if (options.help) {
       .readFileSync(options.template)
       .toString();
   }
-  console.log(socket2md.generateMD(options));
+  socket2md.generateMD(options).then(md => console.log(md));
 }
 function loadStoredConfig(options) {
   const loadConfig = require('config-master');

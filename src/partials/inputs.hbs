@@ -1,0 +1,7 @@
+{{#if inputs}}{{#unless inputs.GET}}{{#unless inputs.POST}}###### GET POST{{#with inputs}}
+{{>inputs-block}}{{/with}}
+{{/unless}}{{/unless}}{{#if inputs.GET}}###### GET
+{{#with inputs.GET}}{{>inputs-block}}{{/with}}
+{{/if}}{{#if inputs.POST}}###### POST
+{{#with inputs.POST}}{{>inputs-block}}{{/with}}
+{{/if}}{{/if}}

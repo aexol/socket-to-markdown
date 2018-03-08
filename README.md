@@ -41,10 +41,10 @@ $ npm run docs
 * events
 * index
 * main
-* parameter
-* parameters
-* parameters-block
-* parameters-table
+* input
+* inputs
+* inputs-block
+* inputs-table
 
 ## Extra partial
 
@@ -57,8 +57,8 @@ You can add any handlebars template file as partial template.
 * config - Get config object
 * endpoints - Get endpoints obejct
 * events - Get events object
-* parameters - Get parameters for current endpoint
-* parameters-table - Create param table for current endpoint
+* inputs - Get inputs for current endpoint
+* inputs-table - Create param table for current endpoint
 * reference-type - True if class type is reference or relation.
 
 ## Extra helpers
